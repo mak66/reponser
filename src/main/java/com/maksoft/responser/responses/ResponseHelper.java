@@ -23,9 +23,9 @@ public class ResponseHelper {
         Object o = mapper.convertValue(responseEntity.getBody().get("payload"), c);
         return (T) o;
     }
-    public static <T> T getPayLoad(ResponseEntity<Map<String, Object>> responseEntity, TypeReference ptr) {
+    public static <T> T getPayLoad(ResponseEntity<Map<String, Object>> responseEntity, TypeReference typeReference) {
         ObjectMapper mapper = new ObjectMapper();
-        Object o = mapper.convertValue(responseEntity.getBody().get("payload"), ptr);
+        Object o = mapper.convertValue(responseEntity.getBody().get("payload"), typeReference);
         return (T) o;
     }
 

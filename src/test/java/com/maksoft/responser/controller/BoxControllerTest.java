@@ -3,6 +3,7 @@ package com.maksoft.responser.controller;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.maksoft.responser.dtos.Box;
 import com.maksoft.responser.responses.ResponseHelper;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import org.junit.Before;
@@ -59,14 +60,21 @@ public class BoxControllerTest {
         BoxController instance = new BoxController();
         RestTemplate restTemplate = new RestTemplate();
    
-        List<Box> returnedList;
+        List<Box> ExpectedList = new ArrayList<>();
+        ExpectedList.add(new Box("1","red","medium"));
+        ExpectedList.add(new Box("2","blue","medium"));
+        ExpectedList.add(new Box("3","green","medium"));
         ResponseEntity<Map<String, Object>> result = restTemplate.exchange("http://localhost:8080/list", HttpMethod.GET, null,
                 ResponseHelper.ptr);
         assertEquals(HttpStatus.OK, result.getStatusCode());
         
         List<Box> actual = ResponseHelper.<List<Box>>getPayLoad(result, new TypeReference<List<Box>>(){});
+        int i=0;
         for (Box b : actual){
-            System.out.println("b:"+b);
+            assertTrue(ExpectedList.contains(b));
+        }
+        for (Box b : ExpectedList){
+            assertTrue(actual.contains(b));
         }
 
     }
